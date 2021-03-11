@@ -28,10 +28,9 @@ def huffman_code_tree(node, bin_string=''):
 
 def huffman_decode(dictionary, text):
     res = ""
-    while len(text)>=1:
+    while text:
         for k in dictionary: #Iterates over all dictionary for each character.
             if text.startswith(dictionary[k]):
-                print(dictionary[k],k)
                 res += k
                 text = text[len(dictionary[k]):]
     return res
@@ -43,6 +42,17 @@ def to_bytes(data):
         b.append(int(data[i:i + 8], 2))
     return bytes(b)
 
+def to_string(data):
+    f = open(data, "rb")
+    try:
+        byte = f.read(1)
+        while byte != "":
+            # Do stuff with byte.
+            byte = f.read(1)
+    finally:
+        f.close()
+
+    return
 
 def huffman_encode(freq):
     nodes  = sorted(freq.items(), key=lambda x: x[1], reverse=True)
@@ -57,9 +67,10 @@ def huffman_encode(freq):
 
 start=datetime.now() #Start the timer
 # huffman Method
-file = open('istiklal_marsi.txt', 'r',encoding='UTF-8')
+file = open('tom_sawyer_finnish.txt', 'r',encoding='UTF-8')
 string = file.read()
 file.close()
+print('string',string)
 # Calculating frequency
 print(datetime.now()-start,'File read time')
 start=datetime.now() #Start the timer again.
@@ -79,13 +90,13 @@ encoded_string = ''
 #print('string2',string)
 for i in string:
     encoded_string += dictionary[i]
-print ('encoded_string',encoded_string)
+#print ('encoded_string',encoded_string)
 
 
 binfile=open("binfile.bin","bw")
 binfile.write(to_bytes(encoded_string))
 binfile.close()
-#print(to_bytes(encoded_string))
+print(to_bytes(encoded_string))
 print('saved binary')
 
 
@@ -93,12 +104,11 @@ read_binfile=open("binfile.bin","rb")
 byte = read_binfile.read(1)
 coded_string = ""
 
+
+
 start=datetime.now() #Start the timer again to calculate decoding time.
 while len(byte) > 0:
-
     coded_string += f"{bin(ord(byte))[2:]:0>8}"
-    print('coded_str', f'{bin(ord(byte))[2:]}')
-    print('coded_string',f'{bin(ord(byte))[2:]:0>8}')
     byte = read_binfile.read(1)
 print('While loop for encoding:',datetime.now()-start)
 
@@ -107,8 +117,9 @@ read_binfile.close()
 
 start=datetime.now() #Start the timer again to calculate decoding time.
 decoded_string=huffman_decode( dictionary,coded_string)
-print('string decoded in:',datetime.now()-start)
+print('decoded_string',datetime.now()-start)
 
-decoded_binfile=open("istiklal_marsi_decoded.txt","w")
+decoded_binfile=open("tom_sawyer_finnish_decoded.bin","w")
 decoded_binfile.write(decoded_string)
 decoded_binfile.close()
+print('decoded_string', decoded_string)
