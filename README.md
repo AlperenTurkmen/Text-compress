@@ -37,4 +37,4 @@ Contact - at753@exeter.ac.uk
 
 Github - https://github.com/AlperenTurkmen/Text-compress/
 
-MIT License Copyright (c) 2020 AlperenTurkmen
+MIT License Copyright (c) 2021 AlperenTurkmen
